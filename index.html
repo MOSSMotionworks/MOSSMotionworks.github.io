@@ -202,6 +202,13 @@ h2 {
   color: var(--muted);
   line-height: 1.8;
 }
+/* Photography collections */
+.photo-collection { margin-top: 70px; scroll-margin-top: 100px; }
+.photo-collection:first-of-type { margin-top: 0; }
+.collection-header { border-top: 1px solid #ffffff30; padding-top: 28px; margin-bottom: 30px; }
+.collection-header h3 { font-size: clamp(28px, 3.5vw, 48px); font-weight: 400; letter-spacing: -1px; margin: 0 0 14px; }
+.collection-header p { color: var(--muted); line-height: 1.8; max-width: 740px; margin: 0; }
+.collection-placeholder { min-height: 180px; display: flex; align-items: center; justify-content: center; border: 1px dashed #ffffff35; background: #ffffff05; color: var(--muted); text-align: center; padding: 28px; font-size: 13px; letter-spacing: 1px; }
 .gallery {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -440,13 +447,17 @@ footer {
       <h2>Photography.</h2>
     </div>
     <p class="section-description">
-      Landscape, environmental, documentary and
-      commissioned photography by Laurence A. Cezanne Moss.
-      Exploring New Mexico's landscapes, light and
-      sense of place.
+      A selection of personal and professional photography by
+      Laurence A. Cezanne Moss, organized by subject and practice.
     </p>
   </div>
 
+  <div class="photo-collection" id="landscape">
+    <div class="collection-header">
+      <div class="eyebrow">Photography / 01</div>
+      <h3>Nature &amp; Landscape</h3>
+      <p>Mountains, desert landscapes, changing seasons and the natural environment, with an emphasis on New Mexico and the American Southwest.</p>
+    </div>
   <div class="gallery">
 
     <figure class="photo wide" tabindex="0">
@@ -491,6 +502,25 @@ footer {
       <figcaption>Autumn in the Mountains</figcaption>
     </figure>
 
+  </div>
+  </div>
+
+  <div class="photo-collection" id="events">
+    <div class="collection-header">
+      <div class="eyebrow">Photography / 02</div>
+      <h3>Event &amp; Documentary Coverage</h3>
+      <p>Public events, cultural celebrations, community gatherings and documentary photography focused on people and the moments that connect them.</p>
+    </div>
+    <div class="collection-placeholder">Event photography collection coming soon.</div>
+  </div>
+
+  <div class="photo-collection" id="commercial">
+    <div class="collection-header">
+      <div class="eyebrow">Photography / 03</div>
+      <h3>Commercial &amp; Commissioned Work</h3>
+      <p>Client-focused photography and visual documentation for artists, galleries, museums, collections and other commercial projects.</p>
+    </div>
+    <div class="collection-placeholder">Commercial and commissioned photography collection coming soon.</div>
   </div>
 </section>
 
