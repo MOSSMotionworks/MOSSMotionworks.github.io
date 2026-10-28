@@ -89,6 +89,16 @@
     }
   ]
 }
+
+document.querySelectorAll(".filmstrip-buttons button").forEach(button => {
+  button.addEventListener("click", () => {
+    const strip = document.getElementById(button.dataset.strip);
+    if (!strip) return;
+    const frame = strip.querySelector(".photo");
+    const step = frame ? frame.getBoundingClientRect().width + 14 : strip.clientWidth * .7;
+    strip.scrollBy({left: step * Number(button.dataset.direction), behavior:"smooth"});
+  });
+});
 </script>
 
 <style>
@@ -202,6 +212,22 @@ h2 {
   color: var(--muted);
   line-height: 1.8;
 }
+
+/* Horizontal filmstrip portrait collections */
+.portrait-series { margin-top: 45px; }
+.portrait-series h4 { font-size: clamp(20px,2.5vw,30px); font-weight:400; margin:0 0 12px; }
+.filmstrip-controls { display:flex; justify-content:space-between; align-items:center; gap:15px; margin: 14px 0; }
+.filmstrip-controls .eyebrow { margin:0; }
+.filmstrip-buttons { display:flex; gap:8px; }
+.filmstrip-buttons button { background:transparent; color:var(--white); border:1px solid #ffffff50; padding:9px 15px; cursor:pointer; }
+.filmstrip-buttons button:hover, .filmstrip-buttons button:focus-visible { border-color:var(--accent); color:var(--accent); }
+.filmstrip { display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:15px; scrollbar-color:var(--accent) #252525; }
+.filmstrip .photo { flex:0 0 auto; width:auto; height:clamp(300px,37vw,530px); scroll-snap-align:start; cursor:zoom-in; }
+.filmstrip .photo img, .filmstrip .photo.wide img { height:100%; width:auto; max-width:none; aspect-ratio:auto; object-fit:contain; }
+.filmstrip .photo figcaption { padding:24px 12px 10px; font-size:10px; }
+.filmstrip-note { font-size:12px; color:var(--muted); }
+@media(max-width:750px) { .filmstrip .photo { height:clamp(300px,65vw,440px); } }
+
 /* Photography collections */
 .photo-collection { margin-top: 70px; scroll-margin-top: 100px; }
 .photo-collection:first-of-type { margin-top: 0; }
@@ -517,10 +543,34 @@ footer {
   <div class="photo-collection" id="commercial">
     <div class="collection-header">
       <div class="eyebrow">Photography / 03</div>
-      <h3>Commercial &amp; Commissioned Work</h3>
-      <p>Client-focused photography and visual documentation for artists, galleries, museums, collections and other commercial projects.</p>
+      <h3>Portraiture &amp; Commercial Work</h3>
+      <p>Commissioned portraiture, graduation photography, professional headshots, and commercial imagery for individuals, artists and organizations.</p>
     </div>
-    <div class="collection-placeholder">Commercial and commissioned photography collection coming soon.</div>
+    <div class="portrait-series">
+      <div class="eyebrow">Portrait Series / 01</div>
+      <h4>Cardenas High School — Graduation Portraits</h4>
+      <div class="filmstrip-controls">
+        <span class="filmstrip-note">10 photographs · Scroll through the session</span>
+        <div class="filmstrip-buttons"><button type="button" data-strip="cardenas-strip" data-direction="-1" aria-label="Previous Cardenas portraits">&#8592;</button><button type="button" data-strip="cardenas-strip" data-direction="1" aria-label="Next Cardenas portraits">&#8594;</button></div>
+      </div>
+      <div class="filmstrip" id="cardenas-strip" aria-label="Cardenas graduation portrait photo carousel" tabindex="0">
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/01.jpg" alt="Cardenas High School graduation portrait, photograph 1 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 01 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/02.jpg" alt="Cardenas High School graduation portrait, photograph 2 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 02 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/03.jpg" alt="Cardenas High School graduation portrait, photograph 3 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 03 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/04.jpg" alt="Cardenas High School graduation portrait, photograph 4 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 04 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/05.jpg" alt="Cardenas High School graduation portrait, photograph 5 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 05 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/06.jpg" alt="Cardenas High School graduation portrait, photograph 6 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 06 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/07.jpg" alt="Cardenas High School graduation portrait, photograph 7 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 07 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/08.jpg" alt="Cardenas High School graduation portrait, photograph 8 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 08 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/09.jpg" alt="Cardenas High School graduation portrait, photograph 9 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 09 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Cardenas/10.jpg" alt="Cardenas High School graduation portrait, photograph 10 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 10 / 10</figcaption></figure>
+      </div>
+    </div>
+    <div class="portrait-series">
+      <div class="eyebrow">Portrait Series / 02</div>
+      <h4>Graduation Portraits — Second Session</h4>
+      <p class="filmstrip-note">Second portrait collection coming soon.</p>
+    </div>
   </div>
 </section>
 
