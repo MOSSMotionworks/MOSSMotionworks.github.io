@@ -89,16 +89,6 @@
     }
   ]
 }
-
-document.querySelectorAll(".filmstrip-buttons button").forEach(button => {
-  button.addEventListener("click", () => {
-    const strip = document.getElementById(button.dataset.strip);
-    if (!strip) return;
-    const frame = strip.querySelector(".photo");
-    const step = frame ? frame.getBoundingClientRect().width + 14 : strip.clientWidth * .7;
-    strip.scrollBy({left: step * Number(button.dataset.direction), behavior:"smooth"});
-  });
-});
 </script>
 
 <style>
@@ -568,8 +558,23 @@ footer {
     </div>
     <div class="portrait-series">
       <div class="eyebrow">Portrait Series / 02</div>
-      <h4>Graduation Portraits — Second Session</h4>
-      <p class="filmstrip-note">Second portrait collection coming soon.</p>
+      <h4>Sam's Graduation Shoot</h4>
+      <div class="filmstrip-controls">
+        <span class="filmstrip-note">10 photographs · Scroll through the session</span>
+        <div class="filmstrip-buttons"><button type="button" data-strip="sam-strip" data-direction="-1" aria-label="Previous Sam portraits">&#8592;</button><button type="button" data-strip="sam-strip" data-direction="1" aria-label="Next Sam portraits">&#8594;</button></div>
+      </div>
+      <div class="filmstrip" id="sam-strip" aria-label="Sam graduation portrait photo carousel" tabindex="0">
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/01.jpg" alt="Sam graduation portrait, photograph 1 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 01 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/02.jpg" alt="Sam graduation portrait, photograph 2 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 02 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/03.jpg" alt="Sam graduation portrait, photograph 3 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 03 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/04.jpg" alt="Sam graduation portrait, photograph 4 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 04 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/05.jpg" alt="Sam graduation portrait, photograph 5 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 05 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/06.jpg" alt="Sam graduation portrait, photograph 6 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 06 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/07.jpg" alt="Sam graduation portrait, photograph 7 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 07 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/08.jpg" alt="Sam graduation portrait, photograph 8 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 08 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/09.jpg" alt="Sam graduation portrait, photograph 9 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 09 / 10</figcaption></figure>
+        <figure class="photo" tabindex="0"><img src="Portraits-Sam/10.jpg" alt="Sam graduation portrait, photograph 10 of 10 by Laurence A. Cezanne Moss" loading="lazy"><figcaption>Frame 10 / 10</figcaption></figure>
+      </div>
     </div>
   </div>
 </section>
@@ -847,6 +852,17 @@ footer {
 </div>
 
 <script>
+
+document.querySelectorAll(".filmstrip-buttons button").forEach(button => {
+  button.addEventListener("click", () => {
+    const strip = document.getElementById(button.dataset.strip);
+    if (!strip) return;
+    const frame = strip.querySelector(".photo");
+    const step = frame ? frame.getBoundingClientRect().width + 14 : strip.clientWidth * .7;
+    strip.scrollBy({left: step * Number(button.dataset.direction), behavior:"smooth"});
+  });
+});
+
 const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeButton = document.getElementById("close");
