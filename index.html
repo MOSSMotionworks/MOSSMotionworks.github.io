@@ -388,6 +388,42 @@ footer {
   max-height: 100%;
   object-fit: contain;
 }
+
+/* Full-size gallery navigation: fades in without covering the photograph. */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 52px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 4px;
+  background: rgba(12,12,12,.42);
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .25s ease, background .2s ease;
+}
+.lightbox-nav.prev { left: 15px; }
+.lightbox-nav.next { right: 15px; }
+.lightbox.open:hover .lightbox-nav:not(:disabled),
+.lightbox-nav:focus-visible { opacity: .82; }
+.lightbox-nav:hover:not(:disabled) { opacity: 1 !important; background: rgba(20,20,20,.8); }
+.lightbox-nav:disabled { display: none; }
+@media (hover: none) {
+  .lightbox-nav:not(:disabled) { opacity: .7; }
+}
+@media (max-width: 600px) {
+  .lightbox-nav { width: 37px; height: 55px; font-size: 26px; }
+  .lightbox-nav.prev { left: 5px; }
+  .lightbox-nav.next { right: 5px; }
+}
 .close {
   position: absolute;
   right: 25px;
@@ -896,7 +932,9 @@ footer {
   <button class="close"
           id="close"
           aria-label="Close photograph">&times;</button>
+  <button type="button" class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous photograph">&#8249;</button>
   <img id="lightboxImage" alt="">
+  <button type="button" class="lightbox-nav next" id="lightboxNext" aria-label="Next photograph">&#8250;</button>
 </div>
 
 <script>
@@ -915,17 +953,43 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImage = document.getElementById("lightboxImage");
 const closeButton = document.getElementById("close");
 
+const lightboxPrev = document.getElementById("lightboxPrev");
+const lightboxNext = document.getElementById("lightboxNext");
+let activePhotos = [];
+let activePhotoIndex = 0;
+let lastFocusedPhoto = null;
+
+function showLightboxPhoto(index) {
+  if (!activePhotos.length) return;
+  activePhotoIndex = index;
+  const img = activePhotos[index].querySelector("img");
+  if (!img) return;
+  lightboxImage.src = img.currentSrc || img.src;
+  lightboxImage.alt = img.alt;
+  lightboxPrev.disabled = index === 0;
+  lightboxNext.disabled = index === activePhotos.length - 1;
+}
+
+function navigateLightbox(direction) {
+  const nextIndex = activePhotoIndex + direction;
+  if (nextIndex >= 0 && nextIndex < activePhotos.length) {
+    showLightboxPhoto(nextIndex);
+  }
+}
+
+// Each filmstrip is its own gallery. Other photo grids navigate within their own grid.
 document.querySelectorAll(".photo").forEach(photo => {
   function openPhoto() {
-    const img = photo.querySelector("img");
-    lightboxImage.src = img.src;
-    lightboxImage.alt = img.alt;
+    const group = photo.closest(".filmstrip") || photo.closest(".gallery");
+    activePhotos = group ? Array.from(group.querySelectorAll(".photo")) : [photo];
+    activePhotoIndex = activePhotos.indexOf(photo);
+    lastFocusedPhoto = document.activeElement;
+    showLightboxPhoto(Math.max(0, activePhotoIndex));
     lightbox.classList.add("open");
     closeButton.focus();
   }
 
   photo.addEventListener("click", openPhoto);
-
   photo.addEventListener("keydown", event => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -936,19 +1000,26 @@ document.querySelectorAll(".photo").forEach(photo => {
 
 function closeLightbox() {
   lightbox.classList.remove("open");
-  lightboxImage.src = "";
+  lightboxImage.removeAttribute("src");
+  activePhotos = [];
+  if (lastFocusedPhoto && typeof lastFocusedPhoto.focus === "function") {
+    lastFocusedPhoto.focus();
+  }
 }
 
+lightboxPrev.addEventListener("click", () => navigateLightbox(-1));
+lightboxNext.addEventListener("click", () => navigateLightbox(1));
 closeButton.addEventListener("click", closeLightbox);
 
 lightbox.addEventListener("click", event => {
-  if (event.target === lightbox) {
-    closeLightbox();
-  }
+  if (event.target === lightbox) closeLightbox();
 });
 
 document.addEventListener("keydown", event => {
+  if (!lightbox.classList.contains("open")) return;
   if (event.key === "Escape") closeLightbox();
+  if (event.key === "ArrowLeft") { event.preventDefault(); navigateLightbox(-1); }
+  if (event.key === "ArrowRight") { event.preventDefault(); navigateLightbox(1); }
 });
 // Discourage casual saving of portfolio photographs without affecting
 // right-click menus on ordinary text, navigation, or external links.
