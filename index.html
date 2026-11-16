@@ -926,6 +926,19 @@ lightbox.addEventListener("click", event => {
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeLightbox();
 });
+// Discourage casual saving of portfolio photographs without affecting
+// right-click menus on ordinary text, navigation, or external links.
+document.addEventListener("contextmenu", event => {
+  if (event.target.closest(".photo, #lightbox")) {
+    event.preventDefault();
+  }
+});
+
+// Prevent dragging gallery images and the enlarged lightbox image.
+document.querySelectorAll(".photo img, #lightboxImage").forEach(img => {
+  img.draggable = false;
+  img.addEventListener("dragstart", event => event.preventDefault());
+});
 </script>
 
 </body>
